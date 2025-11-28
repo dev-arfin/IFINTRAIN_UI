@@ -12,8 +12,8 @@ namespace IFinancing360_TRAINING_UI.Components.TransactionTicketSellComponent
     #endregion
 
     #region Parameter
-    // ID header transaksi (FK ke detail)
     [Parameter, EditorRequired] public string? TransactionID { get; set; }
+    [Parameter, EditorRequired] public string? ID { get; set; }
 
     // Kalau mau disable editing saat status POST/CANCEL
     [Parameter] public bool ReadOnly { get; set; }
@@ -21,6 +21,8 @@ namespace IFinancing360_TRAINING_UI.Components.TransactionTicketSellComponent
 
     #region Component field
     DataGrid<JsonObject> dataGrid = null!;
+    public JsonObject rowTransaction { get; set; } = [];
+     public JsonObject row = new();
     #endregion
 
     #region Class field
@@ -50,6 +52,40 @@ protected async Task<List<JsonObject>?> LoadData(DataGridLoadArgs args)
 }
 #endregion
 
+#region OnParametersSetAsync
+protected override async Task OnParametersSetAsync()
+{
+    // kalau TransactionID ada, baru load transaksi induk
+    if (!string.IsNullOrWhiteSpace(TransactionID))
+    {
+        await GetRowTransaction();
+    }
+
+    await base.OnParametersSetAsync();
+}
+#endregion
+
+private bool IsLocked =>
+    rowTransaction["Status"]?.GetValue<string>() is "POST" or "CANCEL";
+
+
+     #region GetRow
+    public async Task GetRow()
+    {
+      Loading.Show();
+      var res = await IFINTEMPLATEClient.GetRow<JsonObject>("TransactionTicketSellDoc", "GetRowByID", ID);
+
+      if (res?.Data != null)
+      {
+        row = res.Data;
+      }
+
+      Loading.Close();
+      StateHasChanged();
+    }
+    #endregion
+
+
 
 
 
@@ -69,7 +105,7 @@ protected async Task<List<JsonObject>?> LoadData(DataGridLoadArgs args)
 
       foreach (var item in rows)
       {
-        // pastikan ID detail ada
+
         var id = item["ID"]?.GetValue<string>();
         if (string.IsNullOrWhiteSpace(id))
           continue;
@@ -92,24 +128,30 @@ protected async Task<List<JsonObject>?> LoadData(DataGridLoadArgs args)
         );
       }
 
+    
+
       await dataGrid.Reload();
     }
     #endregion
     
-    //  #region GetRowbyTransactionID
-    // public async Task GetRowbyTransactionID()
-    // {
-    //   Loading.Show();
-    //   var res = await IFINTEMPLATEClient.GetRow<JsonObject>("TransactionTicketSell", "GetRowbyTransactionID", new { ID = TransactionID });
-   
-    //   if (res?.Data != null)
-    //   {
-    //      TransactionID = res.Data;
-    //   }
-    //    TransactionID = res?.Data?["ID"]?.GetValue<string>();
-    //   Loading.Close();
-    // }
-    // #endregion
+#region GetRowTransaction
+    public async Task GetRowTransaction()
+    {
+      Loading.Show();
+      var res = await IFINTEMPLATEClient.GetRow<JsonObject>("TransactionTicketSell", "GetRowByID", new
+      {
+        ID = TransactionID
+      });
+
+      if (res?.Data != null)
+      {
+        rowTransaction = res.Data;
+      }
+
+      Loading.Close();
+      StateHasChanged();
+    }
+    #endregion
 
 
   }

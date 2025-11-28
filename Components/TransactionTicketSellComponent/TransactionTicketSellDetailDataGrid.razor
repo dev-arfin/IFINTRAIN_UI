@@ -23,25 +23,27 @@
       <DataGridColumn TItem="JsonObject" Property="NIK" Title="NIK" Width="30%" TextAlign="TextAlign.Left">
         <Template Context="row">
           <FormFieldTextBox Label="NIK"Name="@($"NIK_{row["ID"]}")"Value="@(row["NIK"]?.GetValue<string>())"Required="true"ShowLabel="false"
-                            Disabled="@ReadOnly" ValueChanged="@(val => OnCellChanged(row, "NIK", val))" Max="16" Min="16" NumericOnly />
+                            Disabled="IsLocked" 
+                            ValueChanged="@(val => OnCellChanged(row, "NIK", val))" Max="16" Min="16" NumericOnly />
         </Template>
       </DataGridColumn>
 
       <!-- Name -->
       <DataGridColumn TItem="JsonObject" Property="Name" Title="Name" Width="35%" TextAlign="TextAlign.Left">
         <Template Context="row">
-          <FormFieldTextBox Label="Name"Name="@($"Name_{row["ID"]}")"Value="@(row["Name"]?.GetValue<string>())"Required="true"ShowLabel="false"
-                          Disabled="@ReadOnly" ValueChanged="@(val => OnCellChanged(row, "Name", val))" Max="250" />
+          <FormFieldTextBox Label="Name"Name="@($"Name_{row["ID"]}")"Value="@(row["Name"]?.GetValue<string>())"Required ShowLabel="false"
+                          Disabled="IsLocked" 
+                          ValueChanged="@(val => OnCellChanged(row, "Name", val))" Max="250" />
         </Template>
       </DataGridColumn>
-
       <!-- Phone No -->
       <DataGridColumn TItem="JsonObject" Property="PhoneNo" Title="Phone No" Width="30%" TextAlign="TextAlign.Left">
         <Template Context="row">
           <FormFieldTextBox Label="Phone No"Name="@($"PhoneNO_{row["ID"]}")"Value="@(row["PhoneNO"]?.GetValue<string>())"
-                            ShowLabel="false"Disabled="@ReadOnly"ValueChanged="@(val => OnCellChanged(row, "PhoneNO", val))"
-                            Required NumericOnly Min="10" Max="16"
-                             />
+                            ShowLabel="false"
+                            Disabled="IsLocked"
+                            ValueChanged="@(val => OnCellChanged(row, "PhoneNO", val))"
+                            Required NumericOnly Min="10" Max="16"/>
         </Template>
       </DataGridColumn>
     </Columns>

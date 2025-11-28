@@ -182,7 +182,7 @@ private async void OnSubmit(JsonObject data)
             { "file", fileUpload.InputElement }
           };
 
-          var res = await IFINTEMPLATEClient.PostAsClient("TransactionTicketSellDoc","UploadFile",data,fileInputElements);
+          var res = await IFINTEMPLATEClient.PostAsClient("TransactionTicketSellDoc", "UploadFile", data, fileInputElements);
 
           await GetRow();
           StateHasChanged();

@@ -3,7 +3,7 @@
   <RadzenStack Gap="16">
     <!-- #region Toolbar -->
     <RadzenRow Gap="8">
-  @if (row["Status"]?.GetValue<string>() != "POST"){
+  @if (row["Status"]?.GetValue<string>() == "HOLD"){
       <RoleAccess Code="RC0004027">
         <Button ButtonType="ButtonType.Submit"ButtonStyle="ButtonStyle.Info"Text="Save"Icon="save" />
       </RoleAccess>
