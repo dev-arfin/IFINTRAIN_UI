@@ -1,0 +1,14 @@
+@page "/borrowtransaction/transaction"
+@using IFinancing360_TRAINING_UI.Components.BorrowTransactionComponent
+
+<ReleaseLock />
+
+@* belum dipastikan rollcodenya *@ 
+<RoleAccess Code="RA0001833">
+<Title Text="Transaction List" />
+
+<PageContainer>
+    <BorrowTransactionDataGrid />
+</PageContainer>
+</RoleAccess>
+

@@ -1,0 +1,30 @@
+<RadzenStack Gap="16">
+  <DataGrid ID="TransactionTicketSellDataGrid" @ref="@dataGrid" TItem="JsonObject" LoadData="LoadData" AllowSelected="true" 
+    RowLink=@(row => $"borrowtransaction/transactionticket/{row["ID"]}")>
+    <!-- #region Toolbar -->
+    <Buttons>
+      <RadzenRow Gap="8">
+        <RoleAccess Code="RC0004024">
+          <Button ButtonStyle="ButtonStyle.Info" Text="Add" Icon="add" Click="@Add" />
+        </RoleAccess>
+
+        <RoleAccess Code="RD0001017">
+          <Button ButtonStyle="ButtonStyle.Danger" Text="Delete" Icon="delete" Click="@Delete" />
+        </RoleAccess>
+      </RadzenRow>
+    </Buttons>
+    <!-- #endregion -->
+
+    <!-- #region Columns -->
+    <Columns>
+    <DataGridColumn TItem="JsonObject" Property="Code" Title="Code" Width="20%" />
+    <DataGridColumn TItem="JsonObject" Property="TransactionDate" Title="Date" Width="20%" />
+    <DataGridColumn TItem="JsonObject" Property="BusName" Title="Bus Name" Width="20%" />
+    <DataGridColumn TItem="JsonObject" Property="DestinationName" Title="Destination" Width="20%" />
+    <DataGridColumn TItem="JsonObject" Property="Quantity" Title="Quantity" Width="20%" />
+    <DataGridColumn TItem="JsonObject" Property="TotalAmount" Title="Total Amount" Width="20%" Format="N2" />
+    </Columns>
+    <!-- #endregion -->
+    </DataGrid>
+</RadzenStack>
+

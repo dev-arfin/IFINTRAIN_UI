@@ -1,0 +1,132 @@
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Toolbar -->
+    <RadzenRow Gap="8">
+  @if (row["Status"]?.GetValue<string>() != "POST"){
+      <RoleAccess Code="RC0004027">
+        <Button ButtonType="ButtonType.Submit"ButtonStyle="ButtonStyle.Info"Text="Save"Icon="save" />
+      </RoleAccess>
+  }
+   @if (row["Status"]?.GetValue<string>() == "HOLD"){
+  <RoleAccess Code="RO0000288">
+      <Button ButtonStyle="ButtonStyle.Success"Text="POST"Icon="post"Click="@Post"  />
+  </RoleAccess>
+   }
+  @if (row["Status"]?.GetValue<string>() == "HOLD"){
+    <RoleAccess Code="RR0000198">
+      <Button ButtonStyle="ButtonStyle.Warning"Text="Cancel"Icon="Cancel"Click="@Cancel" />
+    </RoleAccess>
+  }
+      <Button ButtonStyle="ButtonStyle.Danger"Text="Back"Icon="arrow_back"Click="@Back" />
+
+      <RadzenStack Gap="8" Style="margin-left: auto;">
+        <RadzenRow Gap="32">
+        @if (row["Status"]?.GetValue<string>() == "POST"){
+          <RoleAccess Code="RP0000579">
+           <ButtonPreview Text="Print" Icon="print" Template="@GetReportHTML" PrintAs="PrintByID" VisibleExcel="false" VisibleDocx="false" VisibleExcelDataOnly="false"/>
+          </RoleAccess>
+           }
+        </RadzenRow>
+      </RadzenStack>
+
+      <Locker />
+    </RadzenRow>
+    <!-- #endregion -->
+
+    <!-- #region Header Fields -->
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- Code (auto generate) -->
+        <FormFieldTextBox Label="Code"
+                          Name="Code"
+                          Value="@(row["Code"]?.GetValue<string>())"
+                          Required="true"
+                          Disabled
+                          Placeholder="Auto generate" />
+
+        <!-- Transaction Date -->
+        <FormFieldDatePicker Label="Date"
+                             Name="TransactionDate"
+                             Value="@(row["TransactionDate"]?.GetValue<DateTime>())"
+                             Required="true"
+                             Disabled=@(row["Status"]?.GetValue<string>() == "CANCEL" ||  row["Status"]?.GetValue<string>() == "POST") />
+
+        <!-- Status -->
+        <FormFieldTextBox Label="Status"
+                          Name="Status"
+                          Value="@(row["Status"]?.GetValue<string>())"
+                          Required="true"
+                          Disabled />
+      </RadzenRow>
+    </RadzenStack>
+
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- Bus Lookup -->
+        <FormFieldButtonLookup Name="BusName"
+                               Label="Bus"
+                               Target="buslookup"
+                               Value="@(row["BusName"]?.GetValue<string>())"
+                               Text="@(row["BusName"]?.GetValue<string>())"
+                               Required="true"
+                               Title="Data Source From : IFINTRAIN - setting - bus"
+                                 Disabled=@(row["Status"]?.GetValue<string>() == "CANCEL" ||  row["Status"]?.GetValue<string>() == "POST") />
+
+        <!-- Destination Lookup -->
+        <FormFieldButtonLookup Name="DestinationName"
+                              Label="Destination"
+                              Target="destinationlookup"
+                              Value="@(row["DestinationName"]?.GetValue<string>())"
+                              Text="@(row["DestinationName"]?.GetValue<string>())"
+                              Required="true"
+                              Title="Data Source From : IFINTRAIN - setting - bus_destination"
+                                Disabled=@(row["Status"]?.GetValue<string>() == "CANCEL" ||  row["Status"]?.GetValue<string>() == "POST") />
+
+        <!-- Quantity -->
+        <FormFieldNumeric Label="Quantity"
+                  Name="Quantity"
+                  Value="@(row["Quantity"]?.GetValue<int>())"
+                  Required="true"
+                  Disabled=@(row["Status"]?.GetValue<string>() == "CANCEL" ||  row["Status"]?.GetValue<string>() == "POST")
+                  Change="@( (int? val) => OnQuantityChanged(val) )" />
+      </RadzenRow>
+    </RadzenStack>
+
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- Total Amount (auto calc) -->
+        <FormFieldNumeric Label="Total Amount"
+                          Name="TotalAmount"
+                          Value="@(row["TotalAmount"]?.GetValue<decimal>())"
+                          Required="true"
+                          Disabled="true"/>
+      </RadzenRow>
+    </RadzenStack>
+    <!-- #endregion -->
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->
+
+<!-- Bus Lookup Dialog -->
+<SingleSelectLookup ID="busLookup"
+                    @ref="@buslookup"
+                    TItem="JsonObject"
+                    LoadData="LoadBorrowerLookUp"
+                    Title="Bus List"
+                    Select="@OnBusSelected">
+  <DataGridColumn TItem="JsonObject" Property="Code" Title="Code" />
+  <DataGridColumn TItem="JsonObject" Property="BusName" Title="Bus Name" />
+</SingleSelectLookup>
+
+<!-- Destination Lookup Dialog -->
+<SingleSelectLookup ID="destinationLookup"
+                    @ref="@destinationlookup"
+                    TItem="JsonObject"
+                    LoadData="LoadDestinationLookUp"
+                    Title="Destination List"
+                    Select="@OnDestinationSelected">
+  <DataGridColumn TItem="JsonObject" Property="DestinationName" Title="Destination" />
+  <DataGridColumn TItem="JsonObject" Property="PriceAmount" Title="Price Amount" />
+  <DataGridColumn TItem="JsonObject" Property="TotalQuantity" Title="Available Seat" />
+</SingleSelectLookup>

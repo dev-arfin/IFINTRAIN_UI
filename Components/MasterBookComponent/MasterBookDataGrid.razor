@@ -1,0 +1,28 @@
+<RadzenStack Gap="16">
+  <DataGrid ID="MasterBorrowerDataGrid" @ref="@dataGrid" TItem="JsonObject" LoadData="LoadData" AllowSelected="true" 
+    RowLink=@(row => $"{BASE_ROUTE}/{row["ID"]}")>
+    <!-- #region Toolbar -->
+    <Buttons>
+      <RadzenRow Gap="8">
+        <RoleAccess Code="RC0003838">
+          <Button ButtonStyle="ButtonStyle.Info" Text="Add" Icon="add" Click="Add" />
+        </RoleAccess>
+
+        <RoleAccess Code="RD0000966">
+          <Button ButtonStyle="ButtonStyle.Danger" Text="Delete" Icon="delete" Click="Delete" />
+        </RoleAccess>
+      </RadzenRow>
+    </Buttons>
+    <!-- #endregion -->
+
+    <!-- #region Columns -->
+    <Columns>
+    <DataGridColumn TItem="JsonObject" Property="BookCode" Title="Book Code" Width="25%" />
+      <DataGridColumn TItem="JsonObject" Property="BookTitle" Title="Book Title" Width="25%" />
+      <DataGridColumn TItem="JsonObject" Property="Author" Title="Author" Width="25%" />
+      <DataGridColumn TItem="JsonObject" Property="Publisher" Title="Publisher" Width="25%" />
+    </Columns>
+    <!-- #endregion -->
+  </DataGrid>
+</RadzenStack>
+

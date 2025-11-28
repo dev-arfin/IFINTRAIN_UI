@@ -1,0 +1,58 @@
+<TemplateForm Submit="@Save">
+  <RadzenStack Gap="16">
+    <DataGrid ID="MasterBusDestinationDataGrid"@ref="dataGrid"TItem="JsonObject"LoadData="LoadData"AllowSelected="true">
+      <Buttons>
+        <RadzenRow Gap="8">
+          <Button ButtonStyle="ButtonStyle.Info" Text="Add" Icon="add" Click="@(() => destinationLookup.Open())" />
+          <Button ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Submit" Text="Save" Icon="save" />
+          <Button ButtonStyle="ButtonStyle.Danger" Text="Delete" Icon="delete" Click="@Delete" />
+        </RadzenRow>
+      </Buttons>
+
+      <Columns>
+        <DataGridColumn TItem="JsonObject" Property="DestinationName" Title="Destination Name" Width="40%" />
+
+        <DataGridColumn TItem="JsonObject" Property="TotalQuantity" Title="Total Quantity" Width="30%" TextAlign="TextAlign.Right">
+          <Template Context="row">
+            <FormFieldNumeric Label="Total Quantity" Name="@($"TotalQuantity_{row["ID"]}")" 
+                              Value="@(row["TotalQuantity"]?.GetValue<decimal>())" Required="true" ShowLabel="false" @key="@(row["ID"]?.ToString())" />
+
+            <FormFieldTextBox Label="BusID"Name="@($"BusID_{row["ID"]}")"Value="@(row["BusID"]?.GetValue<string>())"
+                              Visible="false" />
+
+            <FormFieldTextBox Label="DestinationID"Name="@($"DestinationID_{row["ID"]}")"Value="@(row["DestinationID"]?.GetValue<string>())"
+                              Visible="false" />
+          </Template>
+        </DataGridColumn>
+
+        @* <DataGridColumn TItem="JsonObject" Property="PriceAmount" Title="Price Amount" Width="25%"
+                        TextAlign="TextAlign.Right" Format="N2" /> *@
+
+            <DataGridColumn TItem="JsonObject" Property="PriceAmount" Title="Price Amount" Width="30%" TextAlign="TextAlign.Right" Format="N2">
+          <Template Context="row">
+            <FormFieldNumeric Label="Total Quantity" Name="@($"PriceAmount_{row["ID"]}")" 
+                              Value="@(row["PriceAmount"]?.GetValue<decimal>())" Required="true" ShowLabel="false" @key="@(row["ID"]?.ToString())" />
+
+            <FormFieldTextBox Label="BusID"Name="@($"BusID_{row["ID"]}")"Value="@(row["BusID"]?.GetValue<string>())"
+                              Visible="false" />
+
+            <FormFieldTextBox Label="DestinationID"Name="@($"DestinationID_{row["ID"]}")"Value="@(row["DestinationID"]?.GetValue<string>())"
+                              Visible="false" />
+          </Template>
+        </DataGridColumn>
+      </Columns>
+    </DataGrid>
+  </RadzenStack>
+</TemplateForm>
+
+<MultipleSelectLookup TItem="JsonObject" ID="MasterBusDestinationDataGrid" @ref="destinationLookup" 
+                      Title="Destination List" LoadData="LoadDestinationLookUp">
+  <ToolbarTemplate>
+    <Button ButtonStyle="ButtonStyle.Info" Text="Add" Icon="add" Click="@Add" />
+  </ToolbarTemplate>
+
+  <ColumnsTemplate>
+    <DataGridColumn TItem="JsonObject" Property="Code" Title="Code" Width="40%"TextAlign=" TextAlign.Left" />
+    <DataGridColumn TItem="JsonObject" Property="DestinationName" Title="Destination Name" Width="60%" TextAlign="TextAlign.Left" />
+  </ColumnsTemplate>
+</MultipleSelectLookup>

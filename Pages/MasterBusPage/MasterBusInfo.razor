@@ -1,0 +1,21 @@
+@page "/setting/bus/add"
+@page "/setting/bus/{ID}"
+@using IFinancing360_TRAINING_UI.Components.MasterBusComponent
+@using IFinancing360_TRAINING_UI.Components.MasterBusDestinationComponent
+<Title Text="Master Bus Info"/>
+<RoleAccess Code="RA0001957">
+<PageContainer>
+    <MasterBusForm ID=@ID />
+    
+    @if (ID != null) 
+    {
+        <Divider />
+        <SectionTitle Text="Bus Destination" />
+        <MasterBusDestinationDataGrid BusID="@ID" />
+    }
+</PageContainer>
+</RoleAccess>
+
+@code {
+    [Parameter] public string ID {get;set;}
+}

@@ -1,0 +1,23 @@
+@page "/inquiry/inquirybook/{ID}/outstanding"
+@using IFinancing360_TRAINING_UI.Components.BookHistoryComponent
+@using IFinancing360_TRAINING_UI.Components.PanelMenuComponent
+
+<Title Text="Inquiry Book Outstanding List" />
+<PanelMenuBook UserID=@ID>
+<PageContainer>
+   <BookHistoryLabel ID=@ID ParentMenuURL=@ParentMenuURL />
+
+   <Divider />
+
+<BookHistoryOutstanding BookID=@ID/>
+</PageContainer>
+</PanelMenuBook>
+
+
+@code {
+    [Parameter] public string? ID {get; set;}
+    [Parameter] public string? BookID {get; set;}
+    [Parameter] public string? UserID {get; set;}
+     [Parameter] public string? ParentMenuURL {get; set;}
+
+}

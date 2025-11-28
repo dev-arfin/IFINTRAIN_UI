@@ -1,0 +1,44 @@
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Toolbar -->
+    <RadzenRow Gap="8">
+        <RoleAccess Code="RC0003837">
+          <Button ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Info" Text="Save" Icon="save" />
+        </RoleAccess>
+      <Button ButtonStyle="ButtonStyle.Danger" Text="Back" Icon="arrow_back" Click="@Back" />
+      <Locker />
+    </RadzenRow>
+    <!-- #endregion -->
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- #region Code -->
+        <FormFieldTextBox Label="Book Code" Name="BookCode" Value="@(row["BookCode"]?.GetValue<string>())" Max="50" Required="true"
+          Disabled=@(ID != null) Formatter=@(value => value.ToUpper()) />
+        <!-- #endregion -->
+          <!-- #region Code -->
+        <FormFieldTextBox Label="Title" Name="BookTitle" Value="@(row["BookTitle"]?.GetValue<string>())" Max="50" Required="true"
+          Disabled=@(ID != null) Formatter=@(value => value.ToUpper()) />
+        <!-- #endregion -->
+        <!-- #region Code -->
+        <FormFieldTextBox Label="Author" Name="Author" Value="@(row["Author"]?.GetValue<string>())" Max="50" Required="true"
+          Disabled=@(ID != null) Formatter=@(value => value.ToUpper()) />
+        <!-- #endregion -->   
+      </RadzenRow>
+
+      <RadzenRow Gap="32">
+        <!-- #region Publisher -->
+        <FormFieldTextBox Label="Publisher" Name="Publisher" Value="@(row["Publisher"]?.GetValue<string>())"
+          Max="250" Required="true" Formatter=@(value => value.ToUpper()) />
+        <!-- #endregion -->
+        <!-- #region Book Quantity -->
+        <FormFieldNumeric Label="Book Quantity" Name="TotalBook" Value="@(row["TotalBook"]?.GetValue<int>())" Max="250" Required="true"/>
+        <!-- #endregion -->
+         <!-- #region  IsActive -->
+          <FormFieldSwitch Name="Active" Label="IsActive" Value="@(row["IsActive"]?.GetValue<int>() ?? 0)"Change="@((int? v) => row["IsActive"] = v ?? 0 )"/>
+        <!-- #endregion -->
+      </RadzenRow>
+    </RadzenStack>
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->

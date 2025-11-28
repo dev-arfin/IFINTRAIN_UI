@@ -1,0 +1,33 @@
+@page "/borrowtransaction/transaction/add"
+@page "/borrowtransaction/transaction/{ID}"
+
+@using IFinancing360_TRAINING_UI.Components.BorrowTransactionComponent
+@using IFinancing360_TRAINING_UI.Components.BorrowTransactionDetailComponent
+<Title Text="Transaction Info" />
+<RoleAccess Code="RA0001833">
+@* belum dipastikan rollcodenya *@ 
+    <PageContainer>
+        <PageLock When="@(ID != null)">
+            <BorrowTransactionForm ID=@ID  @ref="BorrowTransactionFormForm" RowChanged="@(async arg => { 
+								BorrowTransaction = arg; 
+								if (BorrowTransactionDetailDataGridGRID?.dataGrid != null) await BorrowTransactionDetailDataGridGRID.dataGrid.Reload(); })" />
+
+ @if (ID != null){
+            <Divider />
+            <SectionTitle Text="Transaction Detail" />
+
+            <BorrowTransactionDetailDataGrid BorrowID=@ID @ref="BorrowTransactionDetailDataGridGRID" Status=@(BorrowTransaction["Status"]?.GetValue<string>())
+             ReloadParent=@(() => BorrowTransactionFormForm?.GetRow())/>
+        }
+
+        </PageLock>
+    </PageContainer>
+</RoleAccess>
+
+
+@code {
+    [Parameter] public string? ID {get; set;}
+    public JsonObject? BorrowTransaction { get; set; } = [];
+    BorrowTransactionForm BorrowTransactionFormForm;
+    BorrowTransactionDetailDataGrid BorrowTransactionDetailDataGridGRID;
+}

@@ -1,0 +1,63 @@
+<TemplateForm Submit="@Save">
+<RadzenStack Gap="16">
+  <!-- #region Toolbar -->
+  <DataGrid ID="BorrowTransactionDetailDataGrid" @ref=@dataGrid TItem="JsonObject" LoadData="LoadData"
+    AllowSelected=@(rowHeader["Status"]?.GetValue<string>() == "HOLD")>
+    <Buttons>
+      <RadzenRow Gap="8">
+      @if (rowHeader["Status"]?.GetValue<string>() == "HOLD"){
+
+        @* <RoleAccess Code="RC0000814"> *@
+          <Button ButtonStyle="ButtonStyle.Info" Text="Add" Icon="add" Click="@(() => booklookup.Open())" />
+          <Button ButtonStyle="ButtonStyle.Success" ButtonType="ButtonType.Submit" Text="Save" Icon="save" />
+        @* </RoleAccess> *@
+        @* <RoleAccess Code="RD0000356"> *@
+          <Button ButtonStyle="ButtonStyle.Danger" Text="Delete" Icon="delete" Click="@Delete" />
+        @* </RoleAccess> *@
+      }
+      </RadzenRow>
+    </Buttons>
+    <!-- #endregion -->
+    <!-- #region List Data -->
+    <Columns>
+      <DataGridColumn TItem="JsonObject" Property="BookTitle" Title="Book Title" Width="40%" TextAlign="TextAlign.Left" />
+      @* Bagian QUANTITY *@
+      <DataGridColumn TItem="JsonObject" Property="Quantity" Title="Quantity" Width="35%"
+          TextAlign="TextAlign.Right" >
+          <Template Context="row">
+          
+            <FormFieldNumeric Label="Quantity" Name="@($"Quantity_{row["ID"]}")" 
+              Value=@(row["Quantity"]?.GetValue<decimal>()) Required="true" ShowLabel="false" @key=@(row["ID"]?.ToString()) 
+              Disabled=@(rowHeader["Status"]?.GetValue<string>() != "HOLD") />
+
+            <FormFieldTextBox Label="BorrowerID" Name="@($"BorrowID_{row["ID"]}")"
+              Value=@(row["BorrowID"]?.GetValue<string>()) Visible="false" />
+
+            <FormFieldTextBox Label="BookID" Name="@($"BookID_{row["ID"]}")"
+              Value=@(row["BookID"]?.GetValue<string>()) Visible="false" />
+          </Template>
+        </DataGridColumn>
+        @* AKHIR BAGIAN QUANTITY *@
+      <DataGridColumn TItem="JsonObject" Property="RentAmount" Title="Rent Amount" Width="30%" TextAlign="TextAlign.Right" Format="N2" />
+    </Columns>
+  </DataGrid>
+  <!-- #endregion -->
+</RadzenStack>
+</TemplateForm>
+
+<MultipleSelectLookup TItem="JsonObject" ID="BorrowTransactionDetailDataGrid" @ref="booklookup"
+  Title="Table List" LoadData="LoadBookLookUp">
+  <ToolbarTemplate>
+    <Button ButtonStyle="ButtonStyle.Info" Text="Add" Icon="add" Click="@Add" />
+  </ToolbarTemplate>
+
+  <ColumnsTemplate>
+    <DataGridColumn TItem="JsonObject" Property="BookCode" Title="Book Code" Width="25%" TextAlign="TextAlign.Left" />
+    <DataGridColumn TItem="JsonObject" Property="BookTitle" Title="Book Title" Width="25%" TextAlign="TextAlign.Left" />
+    <DataGridColumn TItem="JsonObject" Property="Author" Title="Author" Width="25%" TextAlign="TextAlign.Left" />
+    <DataGridColumn TItem="JsonObject" Property="Publisher" Title="Publisher" Width="25%" TextAlign="TextAlign.Left" />
+  </ColumnsTemplate>
+</MultipleSelectLookup>
+
+
+@* $"/borrowtransaction/transaction/{row["ID"]}" *@

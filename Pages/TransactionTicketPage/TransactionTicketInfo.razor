@@ -1,0 +1,31 @@
+@page "/borrowtransaction/transactionticket/{ID}"
+@page "/borrowtransaction/transactionticket/add"
+@using IFinancing360_TRAINING_UI.Components.TransactionTicketSellComponent
+@using IFinancing360_TRAINING_UI.Components.PanelMenuComponent
+
+<RoleAccess Code="RA0001958">
+<Title Text="Transaction Ticket Info"/>
+
+@if (ID != null) {
+
+<PanelMenuTicket UserID=@ID>
+    <PageContainer>
+        <PageLock>
+            <TransactionTicketSellForm ID=@ID ParentMenuURL=@ParentMenuURL/>
+        </PageLock>
+    </PageContainer>
+</PanelMenuTicket>
+}
+else {
+    <PageContainer>
+        <TransactionTicketSellForm ID=@ID ParentMenuURL=@ParentMenuURL />
+    </PageContainer>
+}
+</RoleAccess>
+
+@code{
+    [Parameter] public string? ID {get; set;}
+    [Parameter] public string? UserID {get; set;}
+    [Parameter] public string? ParentMenuURL {get; set;}
+
+}

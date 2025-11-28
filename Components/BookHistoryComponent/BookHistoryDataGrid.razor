@@ -1,0 +1,18 @@
+
+
+<RadzenStack Gap="16">
+  <DataGrid ID="BookHistoryDataGrid" @ref="@dataGrid" TItem="JsonObject" LoadData="LoadData" AllowSelected="false" 
+    RowLink=@(row => $"/inquiry/inquirybook/{row["ID"]}")>
+   
+
+    <!-- #region Columns -->
+    <Columns>
+      <DataGridColumn TItem="JsonObject" Property="BookTitle" Title="Book Title" Width="25%" />
+      <DataGridColumn TItem="JsonObject" Property="Author" Title="Author" Width="25%" />
+      <DataGridColumn TItem="JsonObject" Property="Publisher" Title="Publisher" Width="25%" />
+      <DataGridColumn TItem="JsonObject" Property="TotalBook" Title="Quantity" Width="25%" />
+    </Columns>
+    <!-- #endregion -->
+  </DataGrid>
+</RadzenStack>
+

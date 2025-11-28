@@ -1,0 +1,45 @@
+
+
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Toolbar -->
+    <RadzenRow Gap="8">
+       <RoleAccess Code="RC0004023">
+       @* Belum Di set RollCode *@
+          <Button ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Info" Text="Save" Icon="save" />
+        </RoleAccess>
+      <Button ButtonStyle="ButtonStyle.Danger" Text="Back" Icon="arrow_back" Click="@Back" />
+      <Locker />
+    </RadzenRow>
+    <!-- #endregion -->
+
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- #region Effective Date -->
+        <FormFieldTextBox Label="Code" Name="Code" Value="@(row["Code"]?.GetValue<string>())" Required="true" Formatter=@(value => value?.ToUpper())/>
+        <!-- #endregion -->
+        <!-- #region Rent Amount -->
+        <FormFieldTextBox Label="Bus Name" Name="BusName" Value="@(row["BusName"]?.GetValue<string>())" Required="true" Formatter=@(value => value?.ToUpper())/>
+        <!-- #endregion -->
+        <!-- #region Late Charge Amount -->
+        <FormFieldTextBox Label="PIC Name" Name="PicName" Value="@(row["PicName"]?.GetValue<string>())" Required="true"/>
+        <!-- #endregion -->
+      </RadzenRow>
+    </RadzenStack>
+     <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- #region Effective Date -->
+        <FormFieldTextBox Label="PIC No" Name="PicPhoneNo" Value="@(row["PicPhoneNo"]?.GetValue<string>())" Required="true" NumericOnly Min="10" Max="16"/>
+        <!-- #endregion -->
+        <!-- #region Rent Amount -->
+        <FormFieldDatePicker Label="Eff date" Name="EffDate" Value="@(row["EffDate"]?.GetValue<DateTime>())" Required="true"/>
+        <!-- #endregion -->
+        <!-- #region Late Charge Amount -->
+        <FormFieldDatePicker Label="Exp  date" Name="ExpDate" Value="@(row["ExpDate"]?.GetValue<DateTime>())" Required="true"/>
+        <!-- #endregion -->
+      </RadzenRow>
+    </RadzenStack>
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->

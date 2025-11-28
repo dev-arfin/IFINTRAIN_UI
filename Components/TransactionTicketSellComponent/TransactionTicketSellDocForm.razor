@@ -1,0 +1,49 @@
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Toolbar -->
+    <RadzenRow Gap="8">
+      <RoleAccess Code="RC0004028">
+        <Button ButtonType="ButtonType.Submit"ButtonStyle="ButtonStyle.Info"Text="Save"Icon="save" />
+      </RoleAccess>
+
+      <Button ButtonStyle="ButtonStyle.Danger"Text="Back"Icon="arrow_back"Click="@Back" />
+
+      <Locker />
+    </RadzenRow>
+    <!-- #endregion -->
+
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- Document Name -->
+        <FormFieldTextBox Label="Document Name"
+                        Name="DocumentName"
+                        Value="@(row["DocumentName"]?.GetValue<string>())"
+                        Required="true" 
+                        Formatter=@(value => value?.ToUpper())
+                        Max="250"
+                        />
+
+        <!-- Upload File -->
+        <FormFieldFileUpload Label="Upload File"
+                            Name="File"
+                            @ref="fileUpload"
+                            Accept="*/*"
+                            Value="@(row["FileName"]?.GetValue<string>())"
+                            FileName="@(row["FileName"]?.GetValue<string>())"
+                            Preview="@Preview"
+                            Upload="@Upload"
+                            Delete="@Delete"
+                            Required="true" />
+
+        <!-- Remarks -->
+        <FormFieldTextBox Label="Remarks"
+                        Name="Remark"
+                        Value="@(row["Remark"]?.GetValue<string>())"
+                        Required="true" 
+                         Max="4000" />
+      </RadzenRow>
+    </RadzenStack>
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->

@@ -1,0 +1,91 @@
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Toolbar -->
+    <RadzenRow Gap="8">
+    @if (row["Status"]?.GetValue<string>() == "HOLD"){
+        <RoleAccess Code="RC0003837">
+          <Button ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Info" Text="Save" Icon="save" 
+          Click="@(() => isSave = "Save")" />
+        </RoleAccess>
+        }
+        @if (ID != null && row["Status"]?.GetValue<string>() == "HOLD"){
+      <Button ButtonStyle="ButtonStyle.Success" Text="Borrow" Icon="Book" Click="@Borrow" />
+      <Button ButtonStyle="ButtonStyle.Warning" Text="Cancel" Icon="Cancel" Click="@Cancel" />
+    }
+    @if (row["Status"]?.GetValue<string>() == "BORROW"){
+        <Button ButtonStyle="ButtonStyle.Warning" ButtonType="ButtonType.Submit" Text="Return" Icon="keyboard_previous_language" 
+        Click="@(() => isSave = "Return")"/>
+        }
+      <Button ButtonStyle="ButtonStyle.Danger" Text="Back" Icon="arrow_back" Click="@Back" />
+      @if (row["Status"]?.GetValue<string>() == "BORROW" || row["Status"]?.GetValue<string>() == "RETURN"){
+
+      <RadzenStack Gap="8" Style="margin-left: auto;">
+        <RadzenRow Gap="32">
+          <ButtonPreview Text="Print" Icon="print" Template="@GetHTML" PrintAs="PrintByID"/>
+        </RadzenRow>
+      </RadzenStack>
+      }
+      <Locker />
+    </RadzenRow>
+    <!-- #endregion -->
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- #region Code -->
+        <FormFieldTextBox Label="Code" Name="Code" Value="@(row["Code"]?.GetValue<string>())" Required="true" Disabled Placeholder="Auto Generate" />
+        <!-- #endregion -->
+          <!-- #region Code -->
+        <FormFieldDatePicker Label="Date" Name="BorrowDate" Value="@(row["BorrowDate"]?.GetValue<DateTime>())"  
+          Required="true" Disabled=@(row["Status"]?.GetValue<string>() != "HOLD") />
+        <!-- #endregion -->
+        <!-- #region Code -->
+        <FormFieldTextBox Label="Status" Name="Status" Value="@(row["Status"]?.GetValue<string>())"  Required="true" Disabled  />
+        <!-- #endregion -->   
+      </RadzenRow>
+
+      <RadzenRow Gap="32">
+        <!-- #region Publisher -->
+      <FormFieldButtonLookup Name="BorrowerID" Label="Borrower" Target="borrowerlookup"
+            Value="@(row["BorrowerID"]?.GetValue<string>())" Text="@(row["BorrowerName"]?.GetValue<string>())" Required="true"
+            Title="Data Source From : IFINTRAIN - Setting - Borrower"  Disabled=@(row["Status"]?.GetValue<string>() != "HOLD") />
+          <!-- #endregion -->
+        <!-- #endregion -->
+        <!-- #region Book Quantity -->
+        <FormFieldDatePicker Label="Estimate Return date" Name="EstimateReturnDate" Value="@(row["EstimateReturnDate"]?.GetValue<DateTime>())" 
+         Required="true" Disabled=@(row["Status"]?.GetValue<string>() != "HOLD")/>
+        <!-- #endregion -->
+        <!-- #region Book total Rent -->
+        <FormFieldNumeric Label="Total Rent Amount" Name="TotalRentAmount" Value="@(row["TotalRentAmount"]?.GetValue<decimal>())" Required="true" Disabled Format="N2"/>
+        <!-- #endregion --> 
+      </RadzenRow>
+    @if (row["Status"]?.GetValue<string>() == "BORROW" || row["Status"]?.GetValue<string>() == "RETURN"){
+
+      <RadzenRow Gap="32">
+        <!-- #region Publisher -->
+        <FormFieldDatePicker Label="Realization Return Date" Name="RealizationReturnDate" Required=@(row["Status"]?.GetValue<string>() == "BORROW") 
+        Value="@(row["RealizationReturnDate"]?.GetValue<DateTime>())" Disabled=@(row["Status"]?.GetValue<string>() != "BORROW") 
+        ValueChanged="@(value => row["RealizationReturnDate"]=value )"/>
+        <!-- #endregion -->
+        <!-- #region Book Quantity -->
+        <FormFieldNumeric Label="Total Late Charge Amount" Name="TotalLateChargeAmount" Value="@(row["TotalLateChargeAmount"]?.GetValue<decimal>())" Required="true" Disabled=@(row["Status"]?.GetValue<string>() != "HOLD")/>
+        <!-- #endregion -->
+        <!-- #region Book total Rent -->
+        <FormFieldFileUpload Label="Upload File" Name="FileName" @ref="fileUpload" Accept="*/*" Value="@(row["FileName"]?.GetValue<string>())" FileName="@FileName" Preview="@Preview" Upload="@Upload" Delete="@Delete" Required="true" Disabled=@(row["Status"]?.GetValue<string>() != "BORROW") />
+        <!-- #endregion --> 
+      </RadzenRow>
+}
+
+
+    </RadzenStack>
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->
+
+<SingleSelectLookup ID="BorrowerLookup" @ref="@borrowerlookup" TItem="JsonObject" LoadData="LoadBorrowerLookUp"
+  Title="Borrower List" Select="@((select) => {
+								row["BorrowerID"] = select["ID"]?.GetValue<string>();
+								row["BorrowerName"] = select["Name"]?.GetValue<string>();
+							})">
+  <DataGridColumn TItem="JsonObject" Property="Name" Title="Name" />
+  <DataGridColumn TItem="JsonObject" Property="IDNo" Title="KTP NO" />
+</SingleSelectLookup>

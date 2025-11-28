@@ -1,0 +1,36 @@
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Header Fields -->
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- Code (auto generate) -->
+        <FormFieldTextBox Label="Code"
+                          Name="Code"
+                          Value="@(row["Code"]?.GetValue<string>())"
+                          Required="true"
+                          Disabled="true"
+                          Placeholder="Auto generate" />
+        <FormFieldButtonLookup Name="BusName"
+                              Label="Bus"
+                              Target="buslookup"
+                              Value="@(row["BusName"]?.GetValue<string>())"
+                              Text="@(row["BusName"]?.GetValue<string>())"
+                              Required="true"
+                              Title="Data Source From : IFINTRAIN - setting - bus"
+                              Disabled = 'true' />
+        <!-- Status -->
+        <FormFieldTextBox Label="Status"
+                          Name="Status"
+                          Value="@(row["Status"]?.GetValue<string>())"
+                          Required="true"
+                          Disabled />
+      </RadzenRow>
+    </RadzenStack>
+
+    <!-- #endregion -->
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->
+
+

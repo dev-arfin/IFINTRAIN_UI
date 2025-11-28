@@ -1,0 +1,27 @@
+@page "/setting/book/add"
+@page "/setting/book/{ID}"
+
+@using IFinancing360_TRAINING_UI.Components.MasterBookComponent
+@using IFinancing360_TRAINING_UI.Components.MasterBookDetailComponent
+
+<Title Text="Book Info" />
+@* <RoleAccess Code="RA0001833"> *@
+@* belum dipastikan rollcodenya *@ 
+    <PageContainer>
+        <PageLock When="@(ID != null)">
+            <MasterBookForm ID=@ID />
+
+        @if (ID != null){
+            <Divider />
+            <SectionTitle Text="Book Details" />
+
+            <MasterBookDetailDataGrid BookID=@ID />
+        }
+        </PageLock>
+    </PageContainer>
+@* </RoleAccess> *@
+
+
+@code {
+    [Parameter] public string? ID {get; set;}
+}

@@ -1,0 +1,19 @@
+@page "/setting/borrower/add"
+@page "/setting/borrower/{ID}"
+
+@using IFinancing360_TRAINING_UI.Components.MasterBorrowerComponent
+
+<Title Text="Borrower Info" />
+@* <RoleAccess Code="RA0001833"> *@
+  <PageContainer>
+    <PageLock When="@(ID != null)">
+      <MasterBorrowerForm ID=@ID />
+
+
+    </PageLock>
+  </PageContainer>
+@* </RoleAccess> *@
+
+@code {
+  [Parameter] public string? ID { get; set; }
+}

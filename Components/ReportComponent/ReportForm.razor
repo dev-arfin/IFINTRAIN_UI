@@ -1,0 +1,18 @@
+
+@using System.Text.RegularExpressions
+
+
+
+<RadzenStack Gap="16">
+<RadzenRow Gap="8">
+<ButtonPreview Text="Print" Icon="print" Template="@GetHTML" PrintAs="Print" />
+</RadzenRow>
+
+<RadzenStack Gap="8">
+<RadzenRow Gap="32">
+<FormFieldDatePicker Label="As Of Date" Name="AsOfDate" Value=@(row["AsOfDate"]?.GetValue<DateTime>()) 
+    ValueChanged=@(value => row["AsOfDate"] = value)   />
+</RadzenRow>
+</RadzenStack>
+
+</RadzenStack>

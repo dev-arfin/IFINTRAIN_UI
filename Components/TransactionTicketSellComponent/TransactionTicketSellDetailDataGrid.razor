@@ -1,0 +1,51 @@
+@using System.Text.Json.Nodes
+@using iFinancing360.UI.Components
+@using iFinancing360.UI.Helper.APIClient
+
+<RadzenStack Gap="16">
+  <DataGrid ID="TransactionTicketSellDetailDataGrid"@ref="@dataGrid"TItem="JsonObject"LoadData="LoadData"AllowPaging="true"
+            PageSize="10"AllowSorting="false"AllowFiltering="false"AllowAdding="false"AllowDeleting="false"AllowInlineEdit="false">
+
+    <!-- #region Toolbar -->
+    <Buttons>
+      <RadzenRow Gap="8">
+        <RoleAccess Code="RC0004025">
+          <Button ButtonStyle="ButtonStyle.Info"Text="Save"Icon="save"Click="@Save"Disabled="@ReadOnly" />
+        </RoleAccess>
+      </RadzenRow>
+    </Buttons>
+    <!-- #endregion -->
+
+    <!-- #region Columns -->
+    <Columns>
+
+      <!-- NIK -->
+      <DataGridColumn TItem="JsonObject" Property="NIK" Title="NIK" Width="30%" TextAlign="TextAlign.Left">
+        <Template Context="row">
+          <FormFieldTextBox Label="NIK"Name="@($"NIK_{row["ID"]}")"Value="@(row["NIK"]?.GetValue<string>())"Required="true"ShowLabel="false"
+                            Disabled="@ReadOnly" ValueChanged="@(val => OnCellChanged(row, "NIK", val))" Max="16" Min="16" NumericOnly />
+        </Template>
+      </DataGridColumn>
+
+      <!-- Name -->
+      <DataGridColumn TItem="JsonObject" Property="Name" Title="Name" Width="35%" TextAlign="TextAlign.Left">
+        <Template Context="row">
+          <FormFieldTextBox Label="Name"Name="@($"Name_{row["ID"]}")"Value="@(row["Name"]?.GetValue<string>())"Required="true"ShowLabel="false"
+                          Disabled="@ReadOnly" ValueChanged="@(val => OnCellChanged(row, "Name", val))" Max="250" />
+        </Template>
+      </DataGridColumn>
+
+      <!-- Phone No -->
+      <DataGridColumn TItem="JsonObject" Property="PhoneNo" Title="Phone No" Width="30%" TextAlign="TextAlign.Left">
+        <Template Context="row">
+          <FormFieldTextBox Label="Phone No"Name="@($"PhoneNO_{row["ID"]}")"Value="@(row["PhoneNO"]?.GetValue<string>())"
+                            ShowLabel="false"Disabled="@ReadOnly"ValueChanged="@(val => OnCellChanged(row, "PhoneNO", val))"
+                            Required NumericOnly Min="10" Max="16"
+                             />
+        </Template>
+      </DataGridColumn>
+    </Columns>
+    <!-- #endregion -->
+
+  </DataGrid>
+</RadzenStack>

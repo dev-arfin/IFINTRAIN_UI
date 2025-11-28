@@ -1,0 +1,35 @@
+@page "/inquiry/inquirybook/{ID}"
+@using IFinancing360_TRAINING_UI.Components.BookHistoryComponent
+@using IFinancing360_TRAINING_UI.Components.PanelMenuComponent
+
+<Title Text="Inquiry Book Info"/>
+
+@if (ID != null) {
+
+<PanelMenuBook UserID=@ID>
+    <PageContainer>
+        <PageLock>
+            <BookHistoryForm ID=@ID ParentMenuURL=@ParentMenuURL/>
+        </PageLock>
+    </PageContainer>
+</PanelMenuBook>
+}
+else {
+    <PageContainer>
+        <BookHistoryForm ID=@ID ParentMenuURL=@ParentMenuURL />
+    </PageContainer>
+}
+
+@* <PanelMenu UserID=@ID">
+<PageContainer>
+<BookHistoryForm ID=@ID/>
+</PageContainer>
+</PanelMenu> *@
+
+
+@code{
+    [Parameter] public string? ID {get; set;}
+    [Parameter] public string? UserID {get; set;}
+    [Parameter] public string? ParentMenuURL {get; set;}
+
+}

@@ -1,0 +1,31 @@
+
+
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Toolbar -->
+    <RadzenRow Gap="8">
+       <RoleAccess Code="RA0001956">
+          <Button ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Info" Text="Save" Icon="save" />
+        </RoleAccess>
+      <Button ButtonStyle="ButtonStyle.Danger" Text="Back" Icon="arrow_back" Click="@Back" />
+      <Locker />
+    </RadzenRow>
+    <!-- #endregion -->
+
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- #region Effective Date -->
+        <FormFieldTextBox Label="Code" Name="Code" Value="@(row["Code"]?.GetValue<string>())" Required="true" Formatter=@(value => value?.ToUpper())/>
+        <!-- #endregion -->
+        <!-- #region Rent Amount -->
+        <FormFieldTextBox Label="DestinationName" Name="DestinationName" Value="@(row["DestinationName"]?.GetValue<string>())" Required="true"  Formatter=@(value => value?.ToUpper())/>
+        <!-- #endregion -->
+        <!-- #region Late Charge Amount -->
+        <FormFieldSwitch Name="Active" Label="IsActive" Value="@(row["IsActive"]?.GetValue<int>() ?? 0)"Change="@((int? v) => row["IsActive"] = v ?? 0 )"/>
+        <!-- #endregion -->
+      </RadzenRow>
+    </RadzenStack>
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->

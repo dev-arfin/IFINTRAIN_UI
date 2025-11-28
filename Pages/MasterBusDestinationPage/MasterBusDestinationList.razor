@@ -1,0 +1,13 @@
+@page "/setting/busdestination/{ID}"
+@using IFinancing360_TRAINING_UI.Components.MasterBusDestinationComponent
+
+<Title Text="Master Bus Destination List"/>
+<RoleAccess Code="">
+<PageContainer>
+    <MasterBusDestinationDataGrid BusID="@ID"/>
+</PageContainer>
+</RoleAccess>
+
+@code {
+    [Parameter] public string ID { get; set; }
+}

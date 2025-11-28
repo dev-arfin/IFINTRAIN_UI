@@ -1,0 +1,15 @@
+@page "/setting/destination/add"
+@page "/setting/destination/{ID}"
+@using IFinancing360_TRAINING_UI.Components.MasterDestinationComponent
+
+<RoleAccess Code="RA0001956">
+<Title Text="Master Destination Info"/>
+<PageContainer>
+    <MasterDestinationForm ID=@ID/>
+</PageContainer>
+</RoleAccess>
+
+
+@code {
+        [Parameter] public string? ID {get; set;}
+}

@@ -1,0 +1,32 @@
+
+
+<!-- #region Form -->
+<TemplateForm Submit=@OnSubmit>
+  <RadzenStack Gap="16">
+    <!-- #region Toolbar -->
+    <RadzenRow Gap="8">
+       <RoleAccess Code="RC0003837">
+       @* Belum Di set RollCode *@
+          <Button ButtonType="ButtonType.Submit" ButtonStyle="ButtonStyle.Info" Text="Save" Icon="save" />
+        </RoleAccess>
+      <Button ButtonStyle="ButtonStyle.Danger" Text="Back" Icon="arrow_back" Click="@Back" />
+      <Locker />
+    </RadzenRow>
+    <!-- #endregion -->
+
+    <RadzenStack Gap="8">
+      <RadzenRow Gap="32">
+        <!-- #region Effective Date -->
+        <FormFieldDatePicker Label="Effective Date" Name="EffDate" Value="@(row["EffDate"]?.GetValue<DateTime>())" Required="true" />
+        <!-- #endregion -->
+        <!-- #region Rent Amount -->
+        <FormFieldNumeric Label="Rent Amount" Name="RentAmount" Value="@(row["RentAmount"]?.GetValue<decimal>())" Required="true" Format="N2"/>
+        <!-- #endregion -->
+        <!-- #region Late Charge Amount -->
+        <FormFieldNumeric Label="Late Charge Amount" Name="LateChargeAmount" Value="@(row["LateChargeAmount"]?.GetValue<decimal>())" Required="true" Format="N2"/>
+        <!-- #endregion -->
+      </RadzenRow>
+    </RadzenStack>
+  </RadzenStack>
+</TemplateForm>
+<!-- #endregion -->

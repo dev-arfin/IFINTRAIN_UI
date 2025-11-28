@@ -1,0 +1,26 @@
+@using System.Text.RegularExpressions
+
+<RadzenStack Gap="16">
+
+<RoleAccess Code="RP0000578">
+    <RadzenRow Gap="8">
+        <!-- Preview HTML -->
+        <ButtonPreview Text="Print"Icon="print"Template="@GetHTML"PrintAs="Print" />
+    </RadzenRow>
+</RoleAccess>
+
+    <RadzenStack Gap="8">
+        <RadzenRow Gap="32">
+            <FormFieldDatePicker Label="Start Date"
+                                 Name="StartDate"
+                                 Value="@(row["StartDate"]?.GetValue<DateTime>())"
+                                 ValueChanged="@(value => row["StartDate"] = value)" />
+
+            <FormFieldDatePicker Label="End Date"
+                                 Name="EndDate"
+                                 Value="@(row["EndDate"]?.GetValue<DateTime>())"
+                                 ValueChanged="@(value => row["EndDate"] = value)" />
+        </RadzenRow>
+    </RadzenStack>
+
+</RadzenStack>

@@ -1,0 +1,30 @@
+@using System.Text.Json.Nodes
+@using iFinancing360.UI.Components
+@using iFinancing360.UI.Helper.APIClient
+
+<RadzenStack Gap="16">
+  <DataGrid ID="TransactionTicketSellDocDataGrid"@ref="@dataGrid"TItem="JsonObject"
+  LoadData="LoadData"AllowSelected="true"RowLink="@(row => $"/borrowtransaction/transactionticket/{ID}/sellingdocument/{row["ID"]}")">
+    <!-- #region Toolbar -->
+    <Buttons>
+      <RadzenRow Gap="8">
+        <RoleAccess Code="RC0004026">
+          <Button ButtonStyle="ButtonStyle.Info"Text="Add"Icon="add"Click="@Add" />
+        </RoleAccess>
+
+        <RoleAccess Code="RD0001018">
+          <Button ButtonStyle="ButtonStyle.Danger"Text="Delete"Icon="delete"Click="@Delete" />
+        </RoleAccess>
+      </RadzenRow>
+    </Buttons>
+    <!-- #endregion -->
+
+    <!-- #region Columns -->
+    <Columns>
+      <!-- Document Name -->
+      <DataGridColumn TItem="JsonObject"Property="DocumentName"Title="Document Name"Width="90%" />
+    </Columns>
+    <!-- #endregion -->
+
+  </DataGrid>
+</RadzenStack>
