@@ -4,7 +4,9 @@
     <!-- #region Toolbar -->
     <RadzenRow Gap="8">
       <RoleAccess Code="RC0004028">
+          @if (IsLocked == false) {
         <Button ButtonType="ButtonType.Submit"ButtonStyle="ButtonStyle.Info"Text="Save"Icon="save" />
+          }
       </RoleAccess>
 
       <Button ButtonStyle="ButtonStyle.Danger"Text="Back"Icon="arrow_back"Click="@Back" />
@@ -20,6 +22,7 @@
                         Name="DocumentName"
                         Value="@(row["DocumentName"]?.GetValue<string>())"
                         Required="true" 
+                        Disabled="IsLocked"
                         Formatter=@(value => value?.ToUpper())
                         Max="250"
                         />
@@ -34,13 +37,15 @@
                             Preview="@Preview"
                             Upload="@Upload"
                             Delete="@Delete"
+                            Disabled="IsLocked"
                             Required="true" />
 
         <!-- Remarks -->
         <FormFieldTextArea Label="Remarks"
                         Name="Remark"
                         Value="@(row["Remark"]?.GetValue<string>())"
-                        Required="true" 
+                        Required="true"
+                        Disabled="IsLocked" 
                          Max="4000" />
       </RadzenRow>
     </RadzenStack>

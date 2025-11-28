@@ -10,7 +10,9 @@
     <Buttons>
       <RadzenRow Gap="8">
         <RoleAccess Code="RC0004025">
-          <Button ButtonStyle="ButtonStyle.Info"Text="Save"Icon="save"Click="@Save"Disabled="@ReadOnly" />
+        @if (IsLocked == false) {
+          <Button ButtonStyle="ButtonStyle.Info"Text="Save"Icon="save"Click="@Save" />
+        }
         </RoleAccess>
       </RadzenRow>
     </Buttons>

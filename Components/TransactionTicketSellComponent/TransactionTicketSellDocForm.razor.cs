@@ -28,11 +28,18 @@ namespace IFinancing360_TRAINING_UI.Components.TransactionTicketSellComponent
 
     #region Field
     public JsonObject row = new();
+     public JsonObject rowTransaction { get; set; } = [];
     #endregion
 
     #region OnParametersSetAsync
     protected override async Task OnParametersSetAsync()
     {
+
+        if (!string.IsNullOrWhiteSpace(TransactionID))
+    {
+        await GetRowTransaction();
+    }
+
       if (!string.IsNullOrWhiteSpace(ID))
       {
         await GetRow();
@@ -53,6 +60,9 @@ namespace IFinancing360_TRAINING_UI.Components.TransactionTicketSellComponent
       await base.OnParametersSetAsync();
     }
     #endregion
+
+    private bool IsLocked =>
+    rowTransaction["Status"]?.GetValue<string>() is "POST" or "CANCEL";
 
     #region GetRow
     public async Task GetRow()
@@ -250,6 +260,25 @@ private async void OnSubmit(JsonObject data)
       {
         Loading.Close();
       }
+    }
+    #endregion
+
+    #region GetRowTransaction
+    public async Task GetRowTransaction()
+    {
+      Loading.Show();
+      var res = await IFINTEMPLATEClient.GetRow<JsonObject>("TransactionTicketSell", "GetRowByID", new
+      {
+        ID = TransactionID
+      });
+
+      if (res?.Data != null)
+      {
+        rowTransaction = res.Data;
+      }
+
+      Loading.Close();
+      StateHasChanged();
     }
     #endregion
   }
